@@ -88,13 +88,13 @@ export const TransactionsTab: React.FC<TransactionsTabProps> = ({
       <div className="light-card p-4 rounded-2xl flex flex-col md:flex-row gap-3 items-center justify-between">
         {/* Search Input */}
         <div className="relative w-full md:w-72">
-          <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+          <Search className="w-4 h-4 text-slate-400 absolute start-3 top-1/2 -translate-y-1/2 pointer-events-none" />
           <input
             type="text"
             placeholder={lang === 'ur' ? 'تلاش کریں...' : 'Search by category or note...'}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500/20"
+            className="w-full ps-9 pe-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500/20"
           />
         </div>
 
@@ -187,8 +187,8 @@ export const TransactionsTab: React.FC<TransactionsTabProps> = ({
                   </div>
                 </div>
 
-                <div className="flex items-center gap-3 flex-shrink-0 ml-3">
-                  <div className="text-right">
+                <div className="flex items-center gap-3 flex-shrink-0 ms-3">
+                  <div className="text-end">
                     <span
                       className={`text-sm font-bold block ${
                         t.type === 'income' ? 'text-emerald-600' : 'text-slate-900'

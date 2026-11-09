@@ -114,21 +114,21 @@ export const DashboardTab: React.FC<DashboardTabProps> = ({
             </div>
 
             {/* High-Visibility Corner Monogram Account Badge on Hero Card */}
-            <div className="flex items-center gap-3 bg-white text-slate-900 py-2.5 px-4 rounded-2xl self-start md:self-auto shadow-lg shadow-emerald-950/20 border-2 border-white ring-2 ring-emerald-400/40">
-              <div className="w-11 h-11 rounded-xl bg-gradient-to-tr from-emerald-600 via-emerald-700 to-teal-800 text-white font-black text-lg flex items-center justify-center shadow-md shadow-emerald-700/30 shrink-0">
+            <div className="flex items-center gap-3 bg-white text-slate-900 py-2.5 px-3.5 sm:px-4 rounded-2xl w-full sm:w-auto shadow-lg shadow-emerald-950/20 border-2 border-white ring-2 ring-emerald-400/40">
+              <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-gradient-to-tr from-emerald-600 via-emerald-700 to-teal-800 text-white font-black text-base flex items-center justify-center shadow-md shadow-emerald-700/30 shrink-0">
                 {initials}
               </div>
-              <div className="min-w-0">
+              <div className="min-w-0 flex-1">
                 <div className="flex items-center gap-1.5">
                   <span className="text-[10px] font-black uppercase tracking-wider text-emerald-800 bg-emerald-100 px-2 py-0.5 rounded-md">
                     {lang === 'ur' ? 'اکاؤنٹ ہولڈر' : 'Account Owner'}
                   </span>
                   <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
                 </div>
-                <h4 className="text-sm font-black text-slate-900 truncate max-w-[170px] mt-0.5">
+                <h4 className="text-sm font-black text-slate-900 truncate mt-0.5">
                   {displayName}
                 </h4>
-                <p className="text-[11px] font-bold text-slate-500 truncate max-w-[170px] font-mono">
+                <p className="text-[11px] font-bold text-slate-500 truncate font-mono">
                   {userEmail || (lang === 'ur' ? 'آف لائن والٹ' : 'Local Wallet')}
                 </p>
               </div>
@@ -139,14 +139,14 @@ export const DashboardTab: React.FC<DashboardTabProps> = ({
           <div className="flex items-center gap-2 mt-5">
             <button
               onClick={onOpenVoice}
-              className="flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-white/15 hover:bg-white/25 backdrop-blur-md border border-white/20 text-xs font-bold transition shadow-sm cursor-pointer"
+              className="flex-1 sm:flex-initial flex items-center justify-center gap-2 px-4 py-2.5 rounded-2xl bg-white/15 hover:bg-white/25 backdrop-blur-md border border-white/20 text-xs font-bold transition shadow-sm cursor-pointer"
             >
-              <Sparkles className="w-4 h-4 text-emerald-200" />
+              <Sparkles className="w-4 h-4 text-emerald-200 shrink-0" />
               <span>{lang === 'ur' ? 'بول کر لکھیں' : 'Voice Assistant'}</span>
             </button>
             <button
               onClick={onOpenAddModal}
-              className="flex items-center gap-2 px-5 py-2.5 rounded-2xl bg-white text-emerald-800 hover:bg-emerald-50 text-xs font-bold transition shadow-md cursor-pointer"
+              className="flex-1 sm:flex-initial flex items-center justify-center gap-2 px-5 py-2.5 rounded-2xl bg-white text-emerald-800 hover:bg-emerald-50 text-xs font-bold transition shadow-md cursor-pointer"
             >
               <span>{lang === 'ur' ? '+ اندراج کریں' : '+ Quick Entry'}</span>
             </button>
@@ -199,7 +199,7 @@ export const DashboardTab: React.FC<DashboardTabProps> = ({
             className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200 text-xs font-bold transition shadow-xs active:scale-95"
           >
             <Plus className="w-3.5 h-3.5" />
-            <span>{lang === 'ur' ? 'نیا اکاؤنٹ شامل کریں' : '+ Add Account'}</span>
+            <span>{lang === 'ur' ? 'نیا اکاؤنٹ شامل کریں' : 'Add Account'}</span>
           </button>
         </div>
 
@@ -308,7 +308,7 @@ export const DashboardTab: React.FC<DashboardTabProps> = ({
                 </p>
               </div>
             </div>
-            <ChevronRight className="w-5 h-5 text-slate-400 group-hover:text-amber-600 transition" />
+            <ChevronRight className="w-5 h-5 text-slate-400 group-hover:text-amber-600 transition rtl:rotate-180" />
           </div>
 
           <div className="grid grid-cols-2 gap-3 pt-2 border-t border-slate-100 text-xs">
@@ -350,7 +350,7 @@ export const DashboardTab: React.FC<DashboardTabProps> = ({
                 </p>
               </div>
             </div>
-            <ChevronRight className="w-5 h-5 text-slate-400 group-hover:text-purple-600 transition" />
+            <ChevronRight className="w-5 h-5 text-slate-400 group-hover:text-purple-600 transition rtl:rotate-180" />
           </div>
 
           <div className="space-y-2 pt-2 border-t border-slate-100">
@@ -370,7 +370,7 @@ export const DashboardTab: React.FC<DashboardTabProps> = ({
                       Month {k.currentMonth} of {k.totalMembers} • My Turn: Month {k.myTurnMonth}
                     </span>
                   </div>
-                  <div className="text-right">
+                  <div className="text-end">
                     <span className="font-bold text-purple-900 block">
                       Rs. {k.monthlyAmount.toLocaleString()}/mo
                     </span>
@@ -393,9 +393,10 @@ export const DashboardTab: React.FC<DashboardTabProps> = ({
           </h3>
           <button
             onClick={() => onNavigateTab('transactions')}
-            className="text-xs font-semibold text-emerald-600 hover:text-emerald-700 transition"
+            className="flex items-center gap-1 text-xs font-semibold text-emerald-600 hover:text-emerald-700 transition"
           >
-            {lang === 'ur' ? 'تمام دیکھیں' : 'View All'} &rarr;
+            <span>{lang === 'ur' ? 'تمام دیکھیں' : 'View All'}</span>
+            <span className="inline-block rtl:rotate-180">&rarr;</span>
           </button>
         </div>
 
@@ -441,7 +442,7 @@ export const DashboardTab: React.FC<DashboardTabProps> = ({
                   </div>
                 </div>
 
-                <div className="text-right">
+                <div className="text-end">
                   <span
                     className={`text-sm font-bold ${
                       t.type === 'income' ? 'text-emerald-600' : 'text-slate-900'

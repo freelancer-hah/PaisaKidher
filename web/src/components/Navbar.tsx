@@ -182,12 +182,12 @@ export const Navbar: React.FC<NavbarProps> = ({
               <span>SMS</span>
             </button>
 
-            {/* Prominent & Clear Logout / Sign In Button */}
+            {/* Prominent & Clear Logout / Sign In Button (Desktop Only: on mobile it lives inside the drawer) */}
             {userEmail ? (
               <button
                 type="button"
                 onClick={onSignOut}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold text-rose-700 hover:text-rose-800 bg-rose-50 hover:bg-rose-100 border border-rose-200 transition active:scale-95 shadow-xs cursor-pointer shrink-0"
+                className="hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold text-rose-700 hover:text-rose-800 bg-rose-50 hover:bg-rose-100 border border-rose-200 transition active:scale-95 shadow-xs cursor-pointer shrink-0"
                 title={lang === 'ur' ? `اکاؤنٹ سے لاگ آؤٹ کریں (${userEmail})` : `Sign Out (${userEmail})`}
                 aria-label="Logout"
               >
@@ -197,7 +197,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             ) : (
               <Link
                 href="/login"
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold text-emerald-700 hover:text-emerald-800 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 transition active:scale-95 shadow-xs shrink-0"
+                className="hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold text-emerald-700 hover:text-emerald-800 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 transition active:scale-95 shadow-xs shrink-0"
                 title={lang === 'ur' ? 'لاگ ان' : 'Sign In'}
                 aria-label="Sign In"
               >
@@ -209,11 +209,11 @@ export const Navbar: React.FC<NavbarProps> = ({
             {/* Mobile / Tablet Menu Button */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="lg:hidden flex items-center justify-center w-9 h-9 rounded-xl text-slate-600 hover:text-slate-900 bg-slate-100 hover:bg-slate-200 border border-slate-200 transition active:scale-95"
+              className="lg:hidden flex items-center justify-center w-9 h-9 rounded-xl text-slate-700 hover:text-slate-900 bg-slate-100 hover:bg-slate-200 border border-slate-200 transition active:scale-95 shrink-0"
               aria-label="Toggle navigation menu"
               title="Menu"
             >
-              {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+              {mobileMenuOpen ? <X className="w-5 h-5 text-slate-800" /> : <Menu className="w-5 h-5 text-slate-800" />}
             </button>
           </div>
         </div>
@@ -223,8 +223,8 @@ export const Navbar: React.FC<NavbarProps> = ({
       {mobileMenuOpen && (
         <div className="lg:hidden border-t border-slate-200/80 bg-white/98 backdrop-blur-xl px-4 py-4 shadow-xl transition-all animate-in fade-in slide-in-from-top-2 duration-150">
           {/* User Profile Monogram Card in Mobile Drawer */}
-          {userEmail && (
-            <div className="p-3.5 mb-4 rounded-2xl bg-gradient-to-r from-emerald-50 to-teal-50 border border-emerald-200 flex items-center justify-between gap-3 shadow-xs">
+          {userEmail ? (
+            <div className="p-3.5 mb-3 rounded-2xl bg-gradient-to-r from-emerald-50 to-teal-50 border border-emerald-200 flex items-center justify-between gap-3 shadow-xs">
               <div className="flex items-center gap-3 min-w-0">
                 <div className="w-11 h-11 rounded-xl bg-gradient-to-tr from-emerald-700 via-emerald-600 to-teal-700 text-white font-black text-base flex items-center justify-center shadow-md shrink-0">
                   {initials}
@@ -242,16 +242,56 @@ export const Navbar: React.FC<NavbarProps> = ({
                   setMobileMenuOpen(false);
                   onSignOut();
                 }}
-                className="px-3 py-1.5 rounded-xl text-xs font-bold text-rose-700 bg-rose-50 hover:bg-rose-100 border border-rose-200 transition shrink-0 cursor-pointer"
+                className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold text-rose-700 bg-rose-50 hover:bg-rose-100 border border-rose-200 transition shrink-0 cursor-pointer active:scale-95"
               >
-                {lang === 'ur' ? 'لاگ آؤٹ' : 'Sign Out'}
+                <LogOut className="w-3.5 h-3.5 text-rose-600 shrink-0" />
+                <span>{lang === 'ur' ? 'لاگ آؤٹ' : 'Sign Out'}</span>
               </button>
             </div>
+          ) : (
+            <Link
+              href="/login"
+              onClick={() => setMobileMenuOpen(false)}
+              className="w-full mb-3 flex items-center justify-between px-4 py-3 rounded-2xl text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 transition shadow-md shadow-emerald-600/20"
+            >
+              <div className="flex items-center gap-2.5">
+                <User className="w-4 h-4 text-white" />
+                <span>{lang === 'ur' ? 'لاگ ان / نیا اکاؤنٹ بنائیں' : 'Sign In / Register'}</span>
+              </div>
+              <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-white/20 text-white">
+                Cloud Sync
+              </span>
+            </Link>
           )}
 
-          <div className="space-y-1 mb-4">
+          {/* Mobile Quick Action Buttons: Add & Voice */}
+          <div className="grid grid-cols-2 gap-2 mb-4">
+            <button
+              onClick={() => {
+                setMobileMenuOpen(false);
+                onOpenAddModal();
+              }}
+              className="flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow-sm shadow-emerald-600/20 transition active:scale-95 cursor-pointer"
+            >
+              <Plus className="w-4 h-4 shrink-0" />
+              <span>{lang === 'ur' ? 'نیا اندراج' : '+ Quick Entry'}</span>
+            </button>
+            <button
+              onClick={() => {
+                setMobileMenuOpen(false);
+                onOpenVoice();
+              }}
+              className="flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200 text-xs font-bold transition active:scale-95 cursor-pointer"
+            >
+              <Mic className="w-4 h-4 text-emerald-600 shrink-0" />
+              <span>{lang === 'ur' ? 'بول کر لکھیں' : 'Voice Assistant'}</span>
+            </button>
+          </div>
+
+          {/* Navigation Pages List (Full coverage of all pages) */}
+          <div className="space-y-1 mb-3">
             <div className="text-[11px] font-bold uppercase tracking-wider text-slate-400 px-3 py-1">
-              {lang === 'ur' ? 'صفحات و کھاتہ' : 'Navigation'}
+              {lang === 'ur' ? 'صفحات و کھاتہ جات' : 'Navigation'}
             </div>
             {navItems.map((tab) => {
               const Icon = tab.icon;
@@ -260,16 +300,16 @@ export const Navbar: React.FC<NavbarProps> = ({
                 <button
                   key={tab.id}
                   onClick={() => handleSelectTab(tab.id)}
-                  className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-semibold transition-all ${
+                  className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-semibold transition-all cursor-pointer ${
                     isActive
-                      ? 'bg-emerald-50 text-emerald-800 border border-emerald-200/80'
+                      ? 'bg-emerald-50 text-emerald-800 border border-emerald-200/80 font-bold'
                       : 'text-slate-700 hover:bg-slate-100'
                   }`}
                 >
                   <div className="flex items-center gap-3">
                     <div
-                      className={`w-7 h-7 rounded-lg flex items-center justify-center ${
-                        isActive ? 'bg-emerald-600 text-white' : 'bg-slate-100 text-slate-500'
+                      className={`w-8 h-8 rounded-xl flex items-center justify-center ${
+                        isActive ? 'bg-emerald-600 text-white shadow-xs' : 'bg-slate-100 text-slate-500'
                       }`}
                     >
                       <Icon className="w-4 h-4" />
@@ -282,33 +322,17 @@ export const Navbar: React.FC<NavbarProps> = ({
             })}
           </div>
 
-          {/* Quick Tools & Auth in Mobile Drawer */}
-          <div className="pt-3 border-t border-slate-100 flex flex-col gap-2">
-            {!userEmail && (
-              <Link
-                href="/login"
-                onClick={() => setMobileMenuOpen(false)}
-                className="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 transition shadow-sm shadow-emerald-200"
-              >
-                <div className="flex items-center gap-2.5">
-                  <Cloud className="w-4 h-4 text-white" />
-                  <span>{lang === 'ur' ? 'کلاؤڈ لاگ ان / نیا اکاؤنٹ' : 'Cloud Login / Sign Up'}</span>
-                </div>
-                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-white/20 text-white">
-                  Sync
-                </span>
-              </Link>
-            )}
-
+          {/* Simulated SMS Import */}
+          <div className="pt-2 border-t border-slate-100">
             <button
               onClick={() => {
                 setMobileMenuOpen(false);
                 onOpenSMSImport();
               }}
-              className="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-semibold text-slate-700 bg-slate-50 hover:bg-slate-100 border border-slate-200 transition"
+              className="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-semibold text-slate-700 bg-slate-50 hover:bg-slate-100 border border-slate-200 transition cursor-pointer"
             >
               <div className="flex items-center gap-2.5">
-                <MessageSquareCode className="w-4 h-4 text-emerald-600" />
+                <MessageSquareCode className="w-4 h-4 text-emerald-600 shrink-0" />
                 <span>{lang === 'ur' ? 'جاز کیش / ایزی پیسہ SMS خودکار درآمد' : 'JazzCash / Easypaisa SMS Import'}</span>
               </div>
               <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800">

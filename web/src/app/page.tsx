@@ -3,7 +3,6 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Navbar } from '@/components/Navbar';
-import { BottomNav } from '@/components/BottomNav';
 import { ToastContainer } from '@/components/Toast';
 import { DashboardTab } from '@/components/DashboardTab';
 import { TransactionsTab } from '@/components/TransactionsTab';
@@ -1297,7 +1296,7 @@ export default function Home() {
       />
 
       {/* Main Content Area */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 sm:pt-6 pb-24 lg:pb-12">
+      <main className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 pt-3 sm:pt-6 pb-12 sm:pb-16">
         {currentTab === 'dashboard' && (
           <DashboardTab
             transactions={transactions}
@@ -1366,15 +1365,6 @@ export default function Home() {
           <AnalyticsTab transactions={transactions} lang={lang} />
         )}
       </main>
-
-      {/* Mobile Bottom Navigation */}
-      <BottomNav
-        currentTab={currentTab}
-        setCurrentTab={setCurrentTab}
-        lang={lang}
-        onOpenAddModal={() => setIsAddOpen(true)}
-        onOpenVoice={() => setIsVoiceOpen(true)}
-      />
 
       {/* Interactive Modals */}
       <AddTransactionModal

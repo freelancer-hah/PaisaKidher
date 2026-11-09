@@ -314,7 +314,7 @@ export const ProjectsTab: React.FC<ProjectsTabProps> = ({
 
                     {/* Spend Counter and Actions */}
                     <div className="flex flex-col sm:flex-row sm:items-center gap-3">
-                      <div className="bg-slate-50 border border-slate-200 px-4 py-2.5 rounded-2xl sm:text-right">
+                      <div className="bg-slate-50 border border-slate-200 px-4 py-2.5 rounded-2xl sm:text-end">
                         <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">
                           {lang === 'ur' ? 'کل خرچہ (Total Spent)' : 'Total Spent'}
                         </span>
@@ -428,12 +428,12 @@ export const ProjectsTab: React.FC<ProjectsTabProps> = ({
                         <table className="w-full text-left text-xs">
                           <thead className="bg-slate-100 text-slate-600 font-bold border-b border-slate-200">
                             <tr>
-                              <th className="py-2.5 px-3">Date</th>
-                              <th className="py-2.5 px-3">Category / Mad</th>
-                              <th className="py-2.5 px-3">Paid To (Vendor)</th>
-                              <th className="py-2.5 px-3">Paid Via</th>
-                              <th className="py-2.5 px-3">Note / Bill</th>
-                              <th className="py-2.5 px-3 text-right">Amount</th>
+                              <th className="py-2.5 px-3">{lang === 'ur' ? 'تاریخ' : 'Date'}</th>
+                              <th className="py-2.5 px-3">{lang === 'ur' ? 'مَد / کیٹیگری' : 'Category / Mad'}</th>
+                              <th className="py-2.5 px-3">{lang === 'ur' ? 'کس کو دیا (مستری/دکان)' : 'Paid To (Vendor)'}</th>
+                              <th className="py-2.5 px-3">{lang === 'ur' ? 'بینک/والٹ' : 'Paid Via'}</th>
+                              <th className="py-2.5 px-3">{lang === 'ur' ? 'نوٹ' : 'Note / Bill'}</th>
+                              <th className="py-2.5 px-3 text-end">{lang === 'ur' ? 'رقم' : 'Amount'}</th>
                               <th className="py-2.5 px-2 text-center w-8"></th>
                             </tr>
                           </thead>
@@ -474,7 +474,7 @@ export const ProjectsTab: React.FC<ProjectsTabProps> = ({
                                   <td className="py-2.5 px-3 text-slate-500 text-[11px]">
                                     {item.note || '-'}
                                   </td>
-                                  <td className="py-2.5 px-3 text-right font-extrabold text-slate-900 whitespace-nowrap">
+                                  <td className="py-2.5 px-3 text-end font-extrabold text-slate-900 whitespace-nowrap">
                                     Rs. {item.amount.toLocaleString()}
                                   </td>
                                   <td className="py-2.5 px-2 text-center">

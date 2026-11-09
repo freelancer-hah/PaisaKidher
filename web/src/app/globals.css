@@ -86,3 +86,19 @@
 .voice-recording-pulse {
   animation: voicePulse 1.5s infinite;
 }
+
+/* Responsive RTL and Urdu Nastaliq Optimization */
+[dir="rtl"] {
+  text-align: right;
+}
+
+[dir="rtl"] .font-urdu {
+  line-height: 1.8;
+}
+
+[dir="rtl"] .font-mono,
+[dir="rtl"] input[type="tel"],
+[dir="rtl"] input[type="email"] {
+  direction: ltr;
+  text-align: right;
+}
