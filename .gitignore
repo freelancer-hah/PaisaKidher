@@ -1,23 +1,27 @@
 # dependencies
-/node_modules
+node_modules/
+**/node_modules/
 /.pnp
 .pnp.js
-mobile/node_modules/
 
 # testing
 /coverage
 
 # next.js
-/.next/
+.next/
+**/.next/
 /out/
 
 # expo
-mobile/.expo/
-mobile/.expo-shared/
+.expo/
+**/.expo/
+.expo-shared/
+**/.expo-shared/
 
 # production
 /build
-mobile/dist/
+dist/
+**/dist/
 
 # misc
 .DS_Store
@@ -30,10 +34,13 @@ yarn-error.log*
 
 # local env files
 .env*.local
-mobile/.env
+**/.env*.local
+.env
+**/.env
 
 # vercel
 .vercel
 
 # typescript
 *.tsbuildinfo
+**/*.tsbuildinfo
