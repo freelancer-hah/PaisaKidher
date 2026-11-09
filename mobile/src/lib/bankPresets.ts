@@ -1,0 +1,190 @@
+export interface BankPreset {
+  id: string;
+  name: string;
+  nameUrdu: string;
+  shortCode: string;
+  brandColor: string;
+  bgColor: string;
+  textColor: string;
+  category: 'bank' | 'wallet' | 'cash';
+}
+
+export const PAKISTANI_BANKS_PRESETS: BankPreset[] = [
+  {
+    id: 'meezan',
+    name: 'Meezan Bank',
+    nameUrdu: 'میزان بینک',
+    shortCode: 'MEEZAN',
+    brandColor: '#005A36',
+    bgColor: '#064e3b',
+    textColor: '#fcd34d',
+    category: 'bank',
+  },
+  {
+    id: 'hbl',
+    name: 'Habib Bank Limited (HBL)',
+    nameUrdu: 'حبیب بینک (HBL)',
+    shortCode: 'HBL',
+    brandColor: '#008269',
+    bgColor: '#047857',
+    textColor: '#ffffff',
+    category: 'bank',
+  },
+  {
+    id: 'ubl',
+    name: 'United Bank Limited (UBL)',
+    nameUrdu: 'یو بی ایل (UBL)',
+    shortCode: 'UBL',
+    brandColor: '#004F9F',
+    bgColor: '#1d4ed8',
+    textColor: '#ffffff',
+    category: 'bank',
+  },
+  {
+    id: 'alfalah',
+    name: 'Bank Alfalah',
+    nameUrdu: 'بینک الفلاح',
+    shortCode: 'ALFA',
+    brandColor: '#ED1C24',
+    bgColor: '#dc2626',
+    textColor: '#ffffff',
+    category: 'bank',
+  },
+  {
+    id: 'mcb',
+    name: 'MCB Bank',
+    nameUrdu: 'ایم سی بی بینک',
+    shortCode: 'MCB',
+    brandColor: '#E35205',
+    bgColor: '#d97706',
+    textColor: '#ffffff',
+    category: 'bank',
+  },
+  {
+    id: 'allied',
+    name: 'Allied Bank (ABL)',
+    nameUrdu: 'الائیڈ بینک',
+    shortCode: 'ABL',
+    brandColor: '#003366',
+    bgColor: '#1e3a8a',
+    textColor: '#ffffff',
+    category: 'bank',
+  },
+  {
+    id: 'askari',
+    name: 'Askari Bank',
+    nameUrdu: 'عسکری بینک',
+    shortCode: 'AKBL',
+    brandColor: '#004B23',
+    bgColor: '#065f46',
+    textColor: '#ffffff',
+    category: 'bank',
+  },
+  {
+    id: 'scb',
+    name: 'Standard Chartered',
+    nameUrdu: 'اسٹینڈرڈ چارٹرڈ',
+    shortCode: 'SCB',
+    brandColor: '#0070CE',
+    bgColor: '#0284c7',
+    textColor: '#ffffff',
+    category: 'bank',
+  },
+  {
+    id: 'faysal',
+    name: 'Faysal Bank',
+    nameUrdu: 'فیصل بینک',
+    shortCode: 'FAYSAL',
+    brandColor: '#0054A6',
+    bgColor: '#2563eb',
+    textColor: '#ffffff',
+    category: 'bank',
+  },
+  {
+    id: 'bop',
+    name: 'Bank of Punjab (BOP)',
+    nameUrdu: 'بینک آف پنجاب',
+    shortCode: 'BOP',
+    brandColor: '#9E1B32',
+    bgColor: '#991b1b',
+    textColor: '#ffffff',
+    category: 'bank',
+  },
+  {
+    id: 'dib',
+    name: 'Dubai Islamic Bank (DIB)',
+    nameUrdu: 'دبئی اسلامک بینک',
+    shortCode: 'DIB',
+    brandColor: '#004B23',
+    bgColor: '#14532d',
+    textColor: '#fcd34d',
+    category: 'bank',
+  },
+  {
+    id: 'sadapay',
+    name: 'SadaPay',
+    nameUrdu: 'سادہ پے',
+    shortCode: 'SADA',
+    brandColor: '#FF6363',
+    bgColor: '#e11d48',
+    textColor: '#ffffff',
+    category: 'wallet',
+  },
+  {
+    id: 'nayapay',
+    name: 'NayaPay',
+    nameUrdu: 'نیا پے',
+    shortCode: 'NAYA',
+    brandColor: '#FF7F00',
+    bgColor: '#ea580c',
+    textColor: '#ffffff',
+    category: 'wallet',
+  },
+  {
+    id: 'jazzcash',
+    name: 'JazzCash',
+    nameUrdu: 'جیز کیش',
+    shortCode: 'JAZZ',
+    brandColor: '#FF0000',
+    bgColor: '#dc2626',
+    textColor: '#fde047',
+    category: 'wallet',
+  },
+  {
+    id: 'easypaisa',
+    name: 'Easypaisa',
+    nameUrdu: 'ایزی پیسہ',
+    shortCode: 'EASY',
+    brandColor: '#00A651',
+    bgColor: '#16a34a',
+    textColor: '#ffffff',
+    category: 'wallet',
+  },
+  {
+    id: 'cash',
+    name: 'Cash in Hand',
+    nameUrdu: 'نقد رقم (کیش)',
+    shortCode: 'CASH',
+    brandColor: '#059669',
+    bgColor: '#059669',
+    textColor: '#ffffff',
+    category: 'cash',
+  },
+  {
+    id: 'other',
+    name: 'Other Bank / Account',
+    nameUrdu: 'دیگر بینک یا والیٹ',
+    shortCode: 'BANK',
+    brandColor: '#475569',
+    bgColor: '#334155',
+    textColor: '#ffffff',
+    category: 'bank',
+  },
+];
+
+export const getBankPreset = (bankKey?: string): BankPreset => {
+  if (!bankKey) return PAKISTANI_BANKS_PRESETS.find((b) => b.id === 'other')!;
+  const found = PAKISTANI_BANKS_PRESETS.find((b) => b.id.toLowerCase() === bankKey.toLowerCase());
+  return found || PAKISTANI_BANKS_PRESETS.find((b) => b.id === 'other')!;
+};
+

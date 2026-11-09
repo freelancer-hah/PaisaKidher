@@ -1,0 +1,32 @@
+{
+  "expo": {
+    "name": "Paisa Kidhar",
+    "slug": "paisa-kidhar",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "splash": {
+      "backgroundColor": "#047857",
+      "resizeMode": "contain"
+    },
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#047857"
+      },
+      "package": "com.paisakidhar.app",
+      "permissions": [
+        "RECEIVE_SMS",
+        "READ_SMS",
+        "RECORD_AUDIO"
+      ]
+    },
+    "web": {
+      "bundler": "metro"
+    }
+  }
+}
+
