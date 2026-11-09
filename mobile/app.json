@@ -6,6 +6,13 @@
     "orientation": "portrait",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/2cf18d86-532d-4d50-a990-8634f0856d2f",
+      "fallbackToCacheTimeout": 0
+    },
     "splash": {
       "backgroundColor": "#047857",
       "resizeMode": "contain"
@@ -26,7 +33,12 @@
     },
     "web": {
       "bundler": "metro"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "2cf18d86-532d-4d50-a990-8634f0856d2f"
+      }
+    },
+    "owner": "abdulhannan93"
   }
 }
-
