@@ -3,10 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "npm run dev --prefix web",
-    "build": "npm run build --prefix web",
-    "start": "npm run start --prefix web",
-    "dev:mobile": "npm run start --prefix mobile"
+    "dev": "node init && npm run dev --prefix web",
+    "build": "node init && npm run build --prefix web",
+    "start": "node init && npm run start --prefix web",
+    "dev:mobile": "node init && npm run start --prefix mobile"
   }
 }
-
