@@ -15,7 +15,10 @@ config.resolver.nodeModulesPaths = [
   path.resolve(workspaceRoot, 'node_modules'),
 ];
 
-// 3. Custom resolver mapping for packages with unpublished 'src' files in npm release
+// 3. Disable package exports so third-party libraries with incomplete export maps (like @react-navigation/elements) can resolve assets
+config.resolver.unstable_enablePackageExports = false;
+
+// 4. Custom resolver mapping for packages with unpublished 'src' files in npm release
 config.resolver.resolveRequest = (context, moduleName, platform) => {
   if (moduleName === '@react-native-async-storage/async-storage') {
     return context.resolveRequest(
