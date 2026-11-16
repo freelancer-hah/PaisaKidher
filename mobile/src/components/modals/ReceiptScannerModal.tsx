@@ -36,6 +36,7 @@ import {
   getStoredGeminiKey,
   saveStoredGeminiKey,
   parseReceiptWithGemini,
+  DEFAULT_GEMINI_KEY,
 } from '../../lib/receiptParser';
 
 interface ReceiptScannerModalProps {
@@ -77,10 +78,8 @@ export const ReceiptScannerModal: React.FC<ReceiptScannerModalProps> = ({
   useEffect(() => {
     if (isOpen) {
       getStoredGeminiKey().then((key) => {
-        setApiKey(key);
-        if (!key) {
-          setShowKeyInput(true);
-        }
+        setApiKey(key || DEFAULT_GEMINI_KEY);
+        setShowKeyInput(false);
       });
       // Set default account
       if (accounts.length > 0 && !selectedAccountId) {
@@ -119,16 +118,7 @@ export const ReceiptScannerModal: React.FC<ReceiptScannerModalProps> = ({
       return;
     }
 
-    const currentKey = apiKey.trim();
-    if (!currentKey) {
-      setShowKeyInput(true);
-      setAnalysisError(
-        lang === 'ur'
-          ? 'آٹو اسکین کے لیے نیچے Google Gemini API Key درج کریں۔ آپ رقم دستی بھی لکھ سکتے ہیں۔'
-          : 'Please enter a Google Gemini API Key below for AI auto-scan, or review details manually.'
-      );
-      return;
-    }
+    const currentKey = apiKey.trim() || DEFAULT_GEMINI_KEY;
 
     setIsAnalyzing(true);
     try {

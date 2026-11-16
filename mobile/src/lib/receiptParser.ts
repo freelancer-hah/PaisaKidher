@@ -2,13 +2,17 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ParsedReceiptResult } from '../types';
 
 const STORAGE_KEY_GEMINI = '@gemini_vision_api_key';
+export const DEFAULT_GEMINI_KEY =
+  process.env.EXPO_PUBLIC_GEMINI_API_KEY ||
+  process.env.GEMINI_API_KEY ||
+  '';
 
 export async function getStoredGeminiKey(): Promise<string> {
   try {
     const key = await AsyncStorage.getItem(STORAGE_KEY_GEMINI);
-    return key?.trim() || '';
+    return key?.trim() || DEFAULT_GEMINI_KEY;
   } catch {
-    return '';
+    return DEFAULT_GEMINI_KEY;
   }
 }
 
@@ -57,9 +61,9 @@ function normalizeCategory(rawCategory: string): string {
  */
 export async function parseReceiptWithGemini(
   base64Image: string,
-  apiKey: string
+  apiKey?: string
 ): Promise<ParsedReceiptResult> {
-  const cleanKey = apiKey.trim();
+  const cleanKey = (apiKey || DEFAULT_GEMINI_KEY).trim();
   if (!cleanKey) {
     throw new Error('Please provide a Google Gemini API Key to enable automated AI receipt scanning.');
   }
