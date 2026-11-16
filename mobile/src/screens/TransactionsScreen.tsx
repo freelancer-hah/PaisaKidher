@@ -19,6 +19,7 @@ import {
   Calendar,
   Filter,
   FileText,
+  Camera,
 } from 'lucide-react-native';
 import { Transaction, AccountBalance, Language } from '../types';
 import { exportTransactionsPDFMobile } from '../lib/pdfGenerator';
@@ -28,6 +29,7 @@ interface TransactionsScreenProps {
   accounts: AccountBalance[];
   onDeleteTransaction: (id: string) => void;
   lang: Language;
+  onOpenScanner?: () => void;
 }
 
 export const TransactionsScreen: React.FC<TransactionsScreenProps> = ({
@@ -35,6 +37,7 @@ export const TransactionsScreen: React.FC<TransactionsScreenProps> = ({
   accounts,
   onDeleteTransaction,
   lang,
+  onOpenScanner,
 }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [typeFilter, setTypeFilter] = useState<'all' | 'expense' | 'income'>('all');
@@ -108,6 +111,12 @@ export const TransactionsScreen: React.FC<TransactionsScreenProps> = ({
           <FileText size={15} color="#ffffff" />
           <Text style={styles.pdfBtnText}>PDF</Text>
         </TouchableOpacity>
+
+        {onOpenScanner && (
+          <TouchableOpacity style={styles.shareBtn} onPress={onOpenScanner}>
+            <Camera size={16} color="#047857" />
+          </TouchableOpacity>
+        )}
 
         <TouchableOpacity style={styles.shareBtn} onPress={handleShareCSV}>
           <Share2 size={16} color="#047857" />

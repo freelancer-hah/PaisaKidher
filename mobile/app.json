@@ -28,9 +28,19 @@
       "permissions": [
         "RECEIVE_SMS",
         "READ_SMS",
-        "RECORD_AUDIO"
+        "RECORD_AUDIO",
+        "CAMERA"
       ]
     },
+    "plugins": [
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "The app accesses your photos to scan invoices and receipts.",
+          "cameraPermission": "The app accesses your camera to scan invoices and receipts."
+        }
+      ]
+    ],
     "web": {
       "bundler": "metro"
     },

@@ -60,6 +60,7 @@ import { SMSImportModal } from './src/components/modals/SMSImportModal';
 import { AuthModal } from './src/components/modals/AuthModal';
 import { CreateProjectModal } from './src/components/modals/CreateProjectModal';
 import { AddProjectExpenseModal } from './src/components/modals/AddProjectExpenseModal';
+import { ReceiptScannerModal } from './src/components/modals/ReceiptScannerModal';
 import { ToastContainer } from './src/components/Toast';
 
 function MainApp() {
@@ -87,6 +88,7 @@ function MainApp() {
   const [isAddOpen, setIsAddOpen] = useState(false);
   const [isAddAccountOpen, setIsAddAccountOpen] = useState(false);
   const [isVoiceOpen, setIsVoiceOpen] = useState(false);
+  const [isScannerOpen, setIsScannerOpen] = useState(false);
   const [isUdhaarOpen, setIsUdhaarOpen] = useState(false);
   const [isKametiOpen, setIsKametiOpen] = useState(false);
   const [isSMSOpen, setIsSMSOpen] = useState(false);
@@ -1309,6 +1311,7 @@ function MainApp() {
                 kametis={kametis}
                 lang={lang}
                 onOpenVoice={() => setIsVoiceOpen(true)}
+                onOpenScanner={() => setIsScannerOpen(true)}
                 onOpenAddModal={() => setIsAddOpen(true)}
                 onOpenAddAccountModal={() => setIsAddAccountOpen(true)}
                 onOpenSMSModal={() => setIsSMSOpen(true)}
@@ -1323,6 +1326,7 @@ function MainApp() {
                 accounts={accounts}
                 onDeleteTransaction={handleDeleteTransaction}
                 lang={lang}
+                onOpenScanner={() => setIsScannerOpen(true)}
               />
             )}
             UdhaarComponent={() => (
@@ -1428,6 +1432,27 @@ function MainApp() {
             setIsAddAccountOpen(true);
           }}
           lang={lang}
+        />
+
+        <ReceiptScannerModal
+          isOpen={isScannerOpen}
+          onClose={() => setIsScannerOpen(false)}
+          accounts={accounts}
+          lang={lang}
+          onAddTransaction={(tx) => {
+            handleAddTransaction(tx);
+            showToast(
+              'success',
+              lang === 'ur' ? 'رسید کا خرچہ درج ہو گیا' : 'Receipt Expense Recorded!',
+              lang === 'ur'
+                ? `Rs. ${tx.amount.toLocaleString()} والٹ سے منہا کر دیے گئے`
+                : `Rs. ${tx.amount.toLocaleString()} deducted from wallet.`
+            );
+          }}
+          onOpenAddAccountModal={() => {
+            setIsScannerOpen(false);
+            setIsAddAccountOpen(true);
+          }}
         />
 
         <KametiModal

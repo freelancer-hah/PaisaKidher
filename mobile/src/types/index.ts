@@ -11,7 +11,7 @@ export interface Transaction {
   note: string;
   date: string; // ISO string YYYY-MM-DD
   account: string;
-  source?: 'manual' | 'voice' | 'sms';
+  source?: 'manual' | 'voice' | 'sms' | 'scan';
   externalRef?: string;
   receiptUrl?: string;
   projectId?: string;
@@ -111,4 +111,15 @@ export interface ToastNotification {
   message: string;
   duration?: number;
 }
+
+export interface ParsedReceiptResult {
+  amount: number;
+  merchant: string;
+  category: string;
+  date: string;
+  description: string;
+  confidence?: number;
+  imageUri?: string;
+}
+
 

@@ -20,6 +20,7 @@ import {
   Trash2,
   ArrowDownLeft,
   ArrowUpRight,
+  Camera,
 } from 'lucide-react-native';
 import { Transaction, AccountBalance, UdhaarEntry, KametiEntry, Language } from '../types';
 import { BankLogo } from '../components/BankLogo';
@@ -34,6 +35,7 @@ interface DashboardScreenProps {
   onOpenAddModal: () => void;
   onOpenAddAccountModal: () => void;
   onOpenSMSModal: () => void;
+  onOpenScanner?: () => void;
   onDeleteAccount: (id: string) => void;
   onDeleteTransaction: (id: string) => void;
   navigation: any;
@@ -49,6 +51,7 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({
   onOpenAddModal,
   onOpenAddAccountModal,
   onOpenSMSModal,
+  onOpenScanner,
   onDeleteAccount,
   onDeleteTransaction,
   navigation,
@@ -112,17 +115,26 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({
 
         {/* Quick Voice / Entry Actions on Hero */}
         <View style={styles.heroActionRow}>
+          {onOpenScanner && (
+            <TouchableOpacity style={styles.heroSecondaryBtn} onPress={onOpenScanner}>
+              <Camera size={15} color="#a7f3d0" />
+              <Text style={styles.heroSecondaryBtnText}>
+                {lang === 'ur' ? 'رسید اسکین' : 'Scan Bill'}
+              </Text>
+            </TouchableOpacity>
+          )}
+
           <TouchableOpacity style={styles.heroSecondaryBtn} onPress={onOpenVoice}>
-            <Sparkles size={16} color="#a7f3d0" />
+            <Sparkles size={15} color="#a7f3d0" />
             <Text style={styles.heroSecondaryBtnText}>
-              {lang === 'ur' ? 'بول کر لکھیں' : 'Voice Entry'}
+              {lang === 'ur' ? 'بولیں' : 'Voice'}
             </Text>
           </TouchableOpacity>
 
           <TouchableOpacity style={styles.heroPrimaryBtn} onPress={onOpenAddModal}>
-            <Plus size={16} color="#065f46" />
+            <Plus size={15} color="#065f46" />
             <Text style={styles.heroPrimaryBtnText}>
-              {lang === 'ur' ? '+ اندراج کریں' : '+ Quick Entry'}
+              {lang === 'ur' ? '+ اندراج' : '+ Add'}
             </Text>
           </TouchableOpacity>
         </View>
