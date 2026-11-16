@@ -86,67 +86,93 @@ Extract the following information accurately in JSON format:
 }
 Strict requirement: Return ONLY the JSON object. Do not enclose in backticks or markdown quotes.`;
 
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${cleanKey}`;
+  const candidateModels = [
+    'gemini-3.8-flash',
+    'gemini-flash-latest',
+    'gemini-2.5-flash',
+    'gemini-1.5-flash',
+  ];
 
-  const response = await fetch(url, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      contents: [
-        {
-          parts: [
-            { text: prompt },
+  let lastError: Error | null = null;
+
+  for (const model of candidateModels) {
+    try {
+      const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${cleanKey}`;
+
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          contents: [
             {
-              inline_data: {
-                mime_type: 'image/jpeg',
-                data: base64Data,
-              },
+              parts: [
+                { text: prompt },
+                {
+                  inline_data: {
+                    mime_type: 'image/jpeg',
+                    data: base64Data,
+                  },
+                },
+              ],
             },
           ],
-        },
-      ],
-      generationConfig: {
-        temperature: 0.1,
-        response_mime_type: 'application/json',
-      },
-    }),
-  });
+          generationConfig: {
+            temperature: 0.1,
+            response_mime_type: 'application/json',
+          },
+        }),
+      });
 
-  if (!response.ok) {
-    const errorText = await response.text();
-    let msg = `AI Scanner error (${response.status})`;
-    try {
-      const errObj = JSON.parse(errorText);
-      if (errObj.error?.message) {
-        msg = errObj.error.message;
+      if (!response.ok) {
+        const errorText = await response.text();
+        let msg = `AI Scanner error (${response.status})`;
+        try {
+          const errObj = JSON.parse(errorText);
+          if (errObj.error?.message) {
+            msg = errObj.error.message;
+          }
+        } catch {}
+        lastError = new Error(msg);
+        // If model not found or deprecated (404), try next candidate
+        if (response.status === 404 || msg.includes('not found') || msg.includes('no longer available')) {
+          continue;
+        }
+        throw lastError;
       }
-    } catch {}
-    throw new Error(msg);
+
+      const result = await response.json();
+      const text = result?.candidates?.[0]?.content?.parts?.[0]?.text;
+
+      if (!text) {
+        throw new Error('Could not read invoice content from image.');
+      }
+
+      // Clean possible markdown quotes
+      const cleanJson = text
+        .replace(/```json/gi, '')
+        .replace(/```/g, '')
+        .trim();
+
+      const parsed = JSON.parse(cleanJson);
+
+      return {
+        amount: typeof parsed.amount === 'number' ? Math.round(parsed.amount) : 0,
+        merchant: parsed.merchant || 'Shop / Vendor',
+        category: normalizeCategory(parsed.category),
+        date: parsed.date || new Date().toISOString().split('T')[0],
+        description: parsed.description || '',
+        confidence: typeof parsed.confidence === 'number' ? parsed.confidence : 0.9,
+      };
+    } catch (err: any) {
+      lastError = err;
+      if (err.message?.includes('not found') || err.message?.includes('404') || err.message?.includes('no longer available')) {
+        continue;
+      }
+      throw err;
+    }
   }
 
-  const result = await response.json();
-  const text = result?.candidates?.[0]?.content?.parts?.[0]?.text;
-
-  if (!text) {
-    throw new Error('Could not read invoice content from image.');
-  }
-
-  // Clean possible markdown quotes
-  const cleanJson = text
-    .replace(/```json/gi, '')
-    .replace(/```/g, '')
-    .trim();
-
-  const parsed = JSON.parse(cleanJson);
-
-  return {
-    amount: typeof parsed.amount === 'number' ? Math.round(parsed.amount) : 0,
-    merchant: parsed.merchant || 'Shop / Vendor',
-    category: normalizeCategory(parsed.category),
-    date: parsed.date || new Date().toISOString().split('T')[0],
-    description: parsed.description || '',
-    confidence: typeof parsed.confidence === 'number' ? parsed.confidence : 0.9,
-  };
+  throw lastError || new Error('Failed to parse invoice with Gemini.');
 }
