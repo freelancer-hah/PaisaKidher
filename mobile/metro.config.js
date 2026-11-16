@@ -6,16 +6,25 @@ const workspaceRoot = path.resolve(projectRoot, '..');
 
 const config = getDefaultConfig(projectRoot);
 
-// 1. Ensure Metro watches the project root
+// 1. Ensure Metro watches both project and workspace root
 config.watchFolders = [projectRoot, workspaceRoot];
 
-// 2. Explicitly point Metro to the mobile node_modules directory
+// 2. Explicitly point Metro to node_modules
 config.resolver.nodeModulesPaths = [
   path.resolve(projectRoot, 'node_modules'),
   path.resolve(workspaceRoot, 'node_modules'),
 ];
 
-// 3. Fallback resolver order
-config.resolver.resolverMainFields = ['module', 'main', 'react-native'];
+// 3. Custom resolver mapping for packages with unpublished 'src' files in npm release
+config.resolver.resolveRequest = (context, moduleName, platform) => {
+  if (moduleName === '@react-native-async-storage/async-storage') {
+    return context.resolveRequest(
+      context,
+      '@react-native-async-storage/async-storage/lib/commonjs/index.js',
+      platform
+    );
+  }
+  return context.resolveRequest(context, moduleName, platform);
+};
 
 module.exports = config;
