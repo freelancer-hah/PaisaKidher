@@ -15,11 +15,9 @@ config.resolver.nodeModulesPaths = [
   path.resolve(workspaceRoot, 'node_modules'),
 ];
 
-// 3. Disable package exports so third-party libraries with incomplete export maps (like @react-navigation/elements) can resolve assets
-config.resolver.unstable_enablePackageExports = false;
-
-// 4. Custom resolver mapping for packages with unpublished 'src' files in npm release
+// 3. Custom resolver mapping
 config.resolver.resolveRequest = (context, moduleName, platform) => {
+  // Map async-storage to its compiled CommonJS file
   if (moduleName === '@react-native-async-storage/async-storage') {
     return context.resolveRequest(
       context,
@@ -27,6 +25,21 @@ config.resolver.resolveRequest = (context, moduleName, platform) => {
       platform
     );
   }
+
+  // Fallback for relative assets inside @react-navigation if needed
+  if (
+    (moduleName.endsWith('.png') || moduleName.endsWith('.jpg')) &&
+    context.originModulePath &&
+    context.originModulePath.includes('@react-navigation')
+  ) {
+    const dir = path.dirname(context.originModulePath);
+    const target = path.resolve(dir, moduleName);
+    return {
+      type: 'sourceFile',
+      filePath: target,
+    };
+  }
+
   return context.resolveRequest(context, moduleName, platform);
 };
 
